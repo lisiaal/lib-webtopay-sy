@@ -113,7 +113,7 @@ class WebToPay
      *
      * @throws WebToPayException on data validation error
      */
-    public static function redirectToPayment(array $data, bool $exit = false): void
+    public static function redirectToPayment(array $data, bool $exit = false): string
     {
         self::checkRequiredParameters($data);
 
@@ -131,21 +131,23 @@ class WebToPay
         $url = $factory->getRequestBuilder()
             ->buildRequestUrlFromData($data);
 
-        if (WebToPay_Functions::headers_sent()) {
-            echo '<script type="text/javascript">window.location = "' . addslashes($url) . '";</script>';
-        } else {
-            header("Location: $url", true);
-        }
-        printf(
-            'Redirecting to <a href="%s">%s</a>. Please wait.',
-            htmlentities($url, ENT_QUOTES, 'UTF-8'),
-            htmlentities($url, ENT_QUOTES, 'UTF-8')
-        );
-        if ($exit) {
+        // if (WebToPay_Functions::headers_sent()) {
+        //     echo '<script type="text/javascript">window.location = "' . addslashes($url) . '";</script>';
+        // } else {
+        //     header("Location: $url", true);
+        // }
+        // printf(
+        //     'Redirecting to <a href="%s">%s</a>. Please wait.',
+        //     htmlentities($url, ENT_QUOTES, 'UTF-8'),
+        //     htmlentities($url, ENT_QUOTES, 'UTF-8')
+        // );
+        // if ($exit) {
             // @codeCoverageIgnoreStart
-            exit();
+            // exit();
             // @codeCoverageIgnoreEnd
-        }
+        // }
+
+        return $url;
     }
 
     /**
